@@ -12,16 +12,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class Steps {
 
     WebDriver driver = null;
 
-//    @After
-//    public void teardown(){
-//        driver.quit();
-//    }
+    @After
+    public void teardown(){
+        driver.quit();
+    }
 
     @Given("the browser is Open")
     public void the_browser_is_open() {
@@ -41,19 +40,13 @@ public class Steps {
     }
 
 
-    @Given("^user navigates to ZIL/USDT pair$")
+    @When("^user clicks on ZIL/USDT pair$")
     public void user_navigates_to_zil_usdt_pair() throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement element = driver.findElement(By.xpath("//*[@id=\"app\"]/div[2]/div[1]/div/span"));
         js.executeScript("arguments[0].scrollIntoView();",element);
         Thread.sleep(2000);
         driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[178]/td[2]/div")).click();
-    }
-
-    @When("user clicks trade")
-    public void user_clicks_trade() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
     }
 
     @Then("^the ZIL/USDT trade page will show$")
