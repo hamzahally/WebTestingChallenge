@@ -17,42 +17,49 @@ public class Steps {
 
     WebDriver driver = null;
 
-    @After
-    public void teardown(){
-        driver.quit();
-    }
+    private static final String EXCHANGE_MARKET_PAGE = "https://crypto.com/exchange/markets";
+    private static final String DISCLAIMER_BUTTON = "/html/body/div[5]/div/div/div[2]/div/button";
+    private static final String COOKIE_ACCEPT_BUTTON = "/html/body/div[1]/div[2]/div[4]/div[2]/div";
+    private static final String BOTTOM_OF_PAGE = "//*[@id=\"app\"]/div[2]/div[1]/div/span";
+    private static final String ZIL_USDT_PAGE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div/div[1]/div/div/div/div[1]/div";
+    private static final String ZIL_USDT_TRADE_BUTTON = "//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[180]/td[7]/div/button";
 
-    @Given("the browser is Open")
-    public void the_browser_is_open() {
+//    @After
+//    public void teardown(){
+//        driver.quit();
+//    }
+
+    @Given("^the browser is open$")
+    public void theBrowserIsOpen() {
         System.setProperty("webdriver.chrome.driver","src/main/resources/drivers/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
 
-    @Given("user navigates is at the exchange markets")
+    @Given("^user navigates to the exchange market page$")
     public void navigateToExchangeMarket() {
-        driver.get("https://crypto.com/exchange/markets");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        driver.findElement(By.xpath("/html/body/div[5]/div/div/div[2]/div/button")).click();
+        driver.get(EXCHANGE_MARKET_PAGE);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.findElement(By.xpath(DISCLAIMER_BUTTON)).click();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
-        driver.findElement(By.xpath("/html/body/div[5]/div/div/div[2]/div/button")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[4]/div[2]/div")).click();
+        driver.findElement(By.xpath(DISCLAIMER_BUTTON)).click();
+        driver.findElement(By.xpath(COOKIE_ACCEPT_BUTTON)).click();
     }
 
 
     @When("^user clicks on ZIL/USDT pair$")
-    public void user_navigates_to_zil_usdt_pair() throws InterruptedException {
+    public void userClicksOnZilUsdtPair() throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement element = driver.findElement(By.xpath("//*[@id=\"app\"]/div[2]/div[1]/div/span"));
+        WebElement element = driver.findElement(By.xpath(BOTTOM_OF_PAGE));
         js.executeScript("arguments[0].scrollIntoView();",element);
         Thread.sleep(3000);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[180]/td[7]/div/button")).click();
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[182]")).click();
     }
 
     @Then("^the ZIL/USDT trade page will show$")
-    public void the_zil_usdt_trade_page_will_show() throws InterruptedException {
-        // Write code here that turns the phrase above into concrete actions
+    public void zilUsdtTradePageWillShow() throws InterruptedException {
         Thread.sleep(5000);
+        // scroll to view zil/usdt and assert words
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div/div[1]/div/div/div/div[1]/div")).isDisplayed());
     }
 
