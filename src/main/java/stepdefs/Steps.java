@@ -45,8 +45,8 @@ public class Steps {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement element = driver.findElement(By.xpath("//*[@id=\"app\"]/div[2]/div[1]/div/span"));
         js.executeScript("arguments[0].scrollIntoView();",element);
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[178]/td[2]/div")).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[180]/td[7]/div/button")).click();
     }
 
     @Then("^the ZIL/USDT trade page will show$")
