@@ -15,19 +15,21 @@ import java.time.Duration;
 
 public class Steps {
 
+
     WebDriver driver = null;
 
     private static final String EXCHANGE_MARKET_PAGE = "https://crypto.com/exchange/markets";
     private static final String DISCLAIMER_BUTTON = "/html/body/div[5]/div/div/div[2]/div/button";
     private static final String COOKIE_ACCEPT_BUTTON = "/html/body/div[1]/div[2]/div[4]/div[2]/div";
     private static final String BOTTOM_OF_PAGE = "//*[@id=\"app\"]/div[2]/div[1]/div/span";
-    private static final String ZIL_USDT_PAGE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div/div[1]/div/div/div/div[1]/div";
-    private static final String ZIL_USDT_TRADE_BUTTON = "//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[180]/td[7]/div/button";
+    private static final String BUY_ZIL = "//*[@id=\"app\"]/div[1]/div[1]/div/div[5]/div/div[2]/div/div[3]/div/div[1]/span[1]";
+    private static final String ZIL_USDT_TRADE_BUTTON = "//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[182]";
+    private static final String TOP_OF_PAGE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div";
 
-//    @After
-//    public void teardown(){
-//        driver.quit();
-//    }
+    @After
+    public void teardown(){
+        driver.quit();
+    }
 
     @Given("^the browser is open$")
     public void theBrowserIsOpen() {
@@ -53,14 +55,17 @@ public class Steps {
         WebElement element = driver.findElement(By.xpath(BOTTOM_OF_PAGE));
         js.executeScript("arguments[0].scrollIntoView();",element);
         Thread.sleep(3000);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[182]")).click();
+        driver.findElement(By.xpath(ZIL_USDT_TRADE_BUTTON)).click();
     }
 
     @Then("^the ZIL/USDT trade page will show$")
     public void zilUsdtTradePageWillShow() throws InterruptedException {
         Thread.sleep(5000);
-        // scroll to view zil/usdt and assert words
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div/div[1]/div/div/div/div[1]/div")).isDisplayed());
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement element = driver.findElement(By.xpath(TOP_OF_PAGE));
+        js.executeScript("arguments[0].scrollIntoView();",element);
+        Assert.assertEquals(driver.findElement(By.xpath(BUY_ZIL)).getText(), "Buy ZIL");
     }
 
 }
+
