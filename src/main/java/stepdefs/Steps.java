@@ -19,7 +19,8 @@ public class Steps {
 
     WebDriver driver = null;
 
-    // Used a lot of xpaths here only because via the website this was only available, ideally Preferred selector order : id > name > css > xpath
+    // Used a lot of xpaths here only because via the production website this was only available,
+    // ideally Preferred selector order : id > name > css > xpath
     private static final String EXCHANGE_MARKET_PAGE = "https://crypto.com/exchange/markets";
     private static final String DISCLAIMER_BUTTON = "/html/body/div[5]/div/div/div[2]/div/button";
     private static final String COOKIE_ACCEPT_BUTTON = "/html/body/div[1]/div[2]/div[4]/div[2]/div";
