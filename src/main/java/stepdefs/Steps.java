@@ -26,8 +26,12 @@ public class Steps {
     private static final String COOKIE_ACCEPT_BUTTON = "/html/body/div[1]/div[2]/div[4]/div[2]/div";
     private static final String BOTTOM_OF_PAGE = "//*[@id=\"app\"]/div[2]/div[1]/div/span";
     private static final String ZIL_USDT_PAGE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div/div[1]/div/div/div/div[1]/div";
+    private static final String ZIL_USDT_PAGE_UPDATE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[2]/div[1]/div/div[1]/div/div/div/div[1]/div";
     private static final String ZIL_USDT_TRADE_BUTTON = "//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[182]";
-    private static final String TOP_OF_PAGE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[1]/div";
+    // locating the selector for zil-usdt here is flakey as it relies on the table body row, this will change when new trading pairs are added
+    private static final String ZIL_USDT_TRADE_BUTTON_UPDATE = "//*[@id=\"app\"]/div[1]/div[1]/div[3]/div[3]/table/tbody/tr[190]";
+
+    private static final String TOP_OF_PAGE = "//*[@id=\"app\"]/div[1]/div[1]/div/div[2]/div[1]/div";
 
     @After
     public void teardown(){
@@ -59,7 +63,7 @@ public class Steps {
         js.executeScript("arguments[0].scrollIntoView();",element);
         // Thread.sleep, used here as issues with implicit wait functions and errors being found for automation
         Thread.sleep(3000);
-        driver.findElement(By.xpath(ZIL_USDT_TRADE_BUTTON)).click();
+        driver.findElement(By.xpath(ZIL_USDT_TRADE_BUTTON_UPDATE)).click();
     }
 
     @Then("^the ZIL/USDT trade page will show$")
@@ -69,7 +73,7 @@ public class Steps {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement element = driver.findElement(By.xpath(TOP_OF_PAGE));
         js.executeScript("arguments[0].scrollIntoView();",element);
-        Assert.assertEquals(driver.findElement(By.xpath(ZIL_USDT_PAGE)).getText(), "ZIL/USDT");
+        Assert.assertEquals(driver.findElement(By.xpath(ZIL_USDT_PAGE_UPDATE)).getText(), "ZIL/USDT");
     }
 
 }
